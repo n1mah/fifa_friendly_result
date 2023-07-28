@@ -1,26 +1,25 @@
 import type { NextFetchEvent ,NextRequest} from "next/server";
-//
-// export const config={
-//     runtime:"edge",
-// }
-// export default function home(req :NextRequest,res:NextFetchEvent) {
-//     // const  a = "ABout"
-//     // return (
-//     //     <div>
-//     //         <h1 className='text-center py-6'>{a}</h1>
-//     //     </div>
-//     // )
-//     console.log('aaa')
-//     return new Response(JSON.stringify({name:"an"}),{
-//         status:200,
-//     })
-// }
+import { Pool } from '@neondatabase/serverless';
+export const config={
+    runtime:"edge",
+}
+export async function GET(req :NextRequest,event:NextFetchEvent) {
+    const SQL=`SELECT * FROM persons;`
+    const pool = new Pool({connectionString: process.env.DATABASE_URL});
+    const {rows}= await pool.query(SQL);
+    const now =rows[0]
+    // event.waitUntil(pool.end())
+
+    return new Response(JSON.stringify({now}),{
+        status:200,
+    })
+}
 
 
-export async function GET(request: Request) {
-    return new Response(JSON.stringify({name:"ali"}), {
-        status: 200,
-    })}
+// export async function GET(request: Request) {
+//     return new Response(JSON.stringify({name:"ali"}), {
+//         status: 200,
+//     })}
 // export default function Page() {
 //     return <h1>Hello, Next.js!</h1>
 // }
