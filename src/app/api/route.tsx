@@ -1,11 +1,11 @@
 import type { NextFetchEvent ,NextRequest} from "next/server";
 import { Pool } from '@neondatabase/serverless';
-export const config={
-    runtime:"edge",
-}
+// export const config={
+//     runtime:"edge",
+// }
 export async function GET(req :NextRequest,event:NextFetchEvent) {
     const SQL=`SELECT * FROM persons;`
-    const pool = new Pool({connectionString: process.env.DATABASE_URL});
+    const pool = new Pool({connectionString: "postgres://n1mah:Uedrw7uADk2R@ep-young-feather-59677512.ap-southeast-1.aws.neon.tech/neondb"});
     const {rows}= await pool.query(SQL);
     const now =rows[0]
     // event.waitUntil(pool.end())
